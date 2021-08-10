@@ -1,2 +1,2 @@
 # LOMEX2
-Upgraded version of LoMeX. ok
+Upgraded version of LoMeX. What
