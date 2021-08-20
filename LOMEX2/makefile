@@ -14,6 +14,12 @@ clean:
 lomex2: fun_kmers.o file_reader.o file_writer.o kmer_index.o fun_poa.o lomex2.o
 	$(CC) -o $(TARGET) fun_kmers.o file_reader.o file_writer.o kmer_index.o fun_poa.o lomex2.o $(LDIR) $(LIB) $(STUFF)
 
+poatest: main-poa.o
+	$(CC) -o poatest main-poa.o $(LDIR) $(LIB) $(STUFF)
+
+main-poa.o: main-poa.cpp
+	$(CC) -c main-poa.cpp $(IDIR) $(STUFF)
+
 fun_poa.o: fun_poa.cpp
 	$(CC) -c fun_poa.cpp $(IDIR) $(STUFF)
 

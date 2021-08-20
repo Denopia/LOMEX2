@@ -200,10 +200,11 @@ void generate_lpo_bundles_new(LPOSequence_T *seq,float minimum_fraction)
     }
     if (primary_seq < 0)
       goto premature_warning;
-    
+
+    FREE(path);
     path=heaviest_bundle(seq->length,seq->letter,/*GET NEXT HEAVIEST BUNDLE*/
 			 seq->nsource_seq,seq->source_seq,&path_length);
-    if (!path || path_length<10) /* ??!? FAILED TO FIND A BUNDLE ??? */
+    if (!path || path_length<4) /* ??!? FAILED TO FIND A BUNDLE ??? */
       goto premature_warning;
 
     /*Leena: reweigh the similar seqs*/
@@ -213,13 +214,14 @@ void generate_lpo_bundles_new(LPOSequence_T *seq,float minimum_fraction)
     seq->source_seq[primary_seq].weight = seq->source_seq[primary_seq].weight/WEIGHT_MULTIPLIER;
     /* Adjust weights */
     count=reweigh_sequences_in_bundle(path_length,path,seq,WEIGHT_MULTIPLIER, minimum_fraction, reweighted);
+    FREE(path);
     path=heaviest_bundle(seq->length,seq->letter,/*GET NEXT HEAVIEST BUNDLE*/
 			 seq->nsource_seq,seq->source_seq,&path_length);
-    if (!path || path_length<10) /* ??!? FAILED TO FIND A BUNDLE ??? */
+    if (!path || path_length<4) /* ??!? FAILED TO FIND A BUNDLE ??? */
       goto premature_warning;
 
     
-    /* sprintf(name,"CONSENS%d",ibundle); */
+    sprintf(name,"CONSENS%d",ibundle);
     /* NEXT, MARK SEQUENCES THAT FIT THIS BUNDLE ADEQUATELY */
     count=assign_sequence_bundle_id(path_length,path,seq,ibundle,
 				    minimum_fraction);
@@ -241,6 +243,7 @@ void generate_lpo_bundles_new(LPOSequence_T *seq,float minimum_fraction)
       break;
     }
   }
+  FREE(path);
 }
 
 /* ### ORIGINAL VERSION ### */
@@ -258,7 +261,7 @@ void generate_lpo_bundles(LPOSequence_T *seq,float minimum_fraction)
     printf("more... %d %d\n", nbundled, seq->nsource_seq);
     FREE (path);
     path=heaviest_bundle(seq->length,seq->letter,seq->nsource_seq,seq->source_seq,&path_length);/*GET NEXT HEAVIEST BUNDLE*/
-    if (!path || path_length<10) /* ??!? FAILED TO FIND A BUNDLE ??? */
+    if (!path || path_length<4) /* ??!? FAILED TO FIND A BUNDLE ??? */
       goto premature_warning;
     sprintf(name,"CONSENS%d",ibundle);
     /* NEXT, MARK SEQUENCES THAT FIT THIS BUNDLE ADEQUATELY */

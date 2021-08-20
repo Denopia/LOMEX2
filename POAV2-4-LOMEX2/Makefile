@@ -5,7 +5,6 @@ TARGETS=poa liblpo.a poa_doc libbflag.a
 
 # align_score.c CAN BE USED TO ADD CUSTOMIZED SCORING FUNCTIONS
 OBJECTS= \
-	#align_score.o \
 	main.o
 
 
