@@ -134,6 +134,7 @@ void export_clustal_seqal(FILE *ifile,
 
 /****************************************************** heaviest_bundle.c */
 void generate_lpo_bundles(LPOSequence_T *seq,float minimum_fraction);
+void generate_lpo_bundles_new(LPOSequence_T *seq,float minimum_fraction);
 
 
 /****************************************************** make_frame.c */
