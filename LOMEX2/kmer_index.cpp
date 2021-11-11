@@ -43,21 +43,29 @@ void KMerIndex::initialize_index(int minimizer_set_occ_threshold)
 		} else {
 			big_enoughs += 1;
 			kmerint = map_str2int_small(minimizer_set);	
-			relevant_kmers.insert(kmerint);
+			relevant_kmers_s.insert(kmerint);
+			relevant_kmers_v.push_back(kmerint);
+			kmers_n += 1;
 		}
 	}
 	std::cout << "Too smalls: " << too_smalls << "\n";
 	std::cout << "Big enoughs: " << big_enoughs << "\n";
 }
 
-void KMerIndex::add_occurrence(uint64_t kmer, int read_id, int position, int length, int strand)
+void KMerIndex::add_occurrence(uint64_t kmer, int read_id, int position, int length, int strand, std::vector<int> & coordinates)
 {
-	if (relevant_kmers.count(kmer)>0)
+	if (relevant_kmers_s.count(kmer)>0)
 	{
 		kmers2occurrences[kmer].push_back(read_id);
 		kmers2occurrences[kmer].push_back(position);
 		kmers2occurrences[kmer].push_back(length);
 		kmers2occurrences[kmer].push_back(strand);
+		for (int c : coordinates){kmers2occurrences[kmer].push_back(c);}
+
+		if (kmers2nof_occurrences.count(kmer) == 0){kmers2nof_occurrences[kmer] == 0;}
+		kmers2nof_occurrences[kmer] += 1;
+
+		//kmers2occurrence_coordinates[kmer].push_back(coordinates);
 	}
 	else
 	{
@@ -67,7 +75,7 @@ void KMerIndex::add_occurrence(uint64_t kmer, int read_id, int position, int len
 
 bool KMerIndex::is_this_relevant_kmer(uint64_t kmer)
 {
-	if (relevant_kmers.count(kmer)>0)
+	if (relevant_kmers_s.count(kmer)>0)
 	{
 		return true;
 	}
@@ -101,7 +109,13 @@ std::tuple<std::string, int> interpret_minimizer_set_line(std::string one_line)
 	{
 		if (!std::isspace(c))
 		{
-			if (part == 0){minimizer_set_string = minimizer_set_string + c;}
+			if (part == 0){
+				if (c == 'C' || c == 'c'){minimizer_set_string = minimizer_set_string + 'C';}
+				else if (c == 'A' || c == 'a'){minimizer_set_string = minimizer_set_string + 'A';}
+				else if (c == 'T' || c == 't'){minimizer_set_string = minimizer_set_string + 'T';}
+				else if (c == 'G' || c == 'g'){minimizer_set_string = minimizer_set_string + 'G';}
+				//minimizer_set_string = minimizer_set_string + c;
+			}
 			else if (part == 1){minimizer_set_occ_string = minimizer_set_occ_string + c;}
 			else {break;}
 		} else {

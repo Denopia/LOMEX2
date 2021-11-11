@@ -341,7 +341,7 @@ SeqPairScore_T *read_seqpair_scorefile (int nseq, LPOSequence_T **seq,
       }
       
       /* fprintf(stderr,"i=%d,j=%d,x=%.2f\n",i,j,x); */
-      fprintf(stderr,"Saving score from file %d (%s), %d (%s) : %.2f\n",i,name1,j,name2,x);
+      //fprintf(stderr,"Saving score from file %d (%s), %d (%s) : %.2f\n",i,name1,j,name2,x);               // COMMENTED
       if (i<j) { int swap=i;i=j;j=swap; }  /* DON'T SAVE UPPER (DUPLICATE?) HALF OF THE MATRIX */
       score_list[nscore].i = i;
       score_list[nscore].j = j;
@@ -363,7 +363,7 @@ SeqPairScore_T *read_seqpair_scorefile (int nseq, LPOSequence_T **seq,
 			score_matrix,&al1,&al2,scoring_function,use_global_alignment); 
       FREE(al1); /* DUMP TEMPORARY MAPPING ARRAYS */
       FREE(al2);
-      fprintf(stderr,"Saving alignment score %d (%s), %d (%s) : %.2f\n",i,seq[i]->name,j,seq[j]->name,x);
+      //fprintf(stderr,"Saving alignment score %d (%s), %d (%s) : %.2f\n",i,seq[i]->name,j,seq[j]->name,x);                // COMMENTED
       score_list[nscore].i = i;
       score_list[nscore].j = j;
       score_list[nscore].score = x;
@@ -378,10 +378,12 @@ SeqPairScore_T *read_seqpair_scorefile (int nseq, LPOSequence_T **seq,
       }
     }
   }
-  else {  /* NOT DOING PROGRESSIVE ALIGNMENT */
+
+  // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ DELETED THE ELSE STATEMENT
+  //else {  /* NOT DOING PROGRESSIVE ALIGNMENT */
     /* USE DEFAULT (=0.0) PAIRSCORES, ENSURING ITERATIVE ALIGNMENT: */
-    fprintf(stderr,"Performing iterative alignment...\n");
-  }
+    //fprintf(stderr,"Performing iterative alignment...\n");
+  //}
   
   for (i=1;i<nseq;i++) {
     if (0 == adj_score[i]) {
@@ -408,12 +410,11 @@ SeqPairScore_T *read_seqpair_scorefile (int nseq, LPOSequence_T **seq,
 LPOSequence_T *buildup_progressive_lpo(int nseq,LPOSequence_T **all_seqs,
 				       ResidueScoreMatrix_T *score_matrix,
 				       int use_aggressive_fusion,
-                                       int do_progressive,
+               int do_progressive,
 				       char score_file[], 
 				       LPOScore_T (*scoring_function)
-				       (int,int,LPOLetter_T [],LPOLetter_T [],
-					ResidueScoreMatrix_T *),
-                                       int use_global_alignment,
+               (int,int,LPOLetter_T [],LPOLetter_T [],ResidueScoreMatrix_T *),
+               int use_global_alignment,
 				       int preserve_sequence_order)
 {
   int i,j,k,max_alloc=0,total_alloc,min_counts=0;
@@ -494,18 +495,25 @@ LPOSequence_T *buildup_progressive_lpo(int nseq,LPOSequence_T **all_seqs,
     else /* CLUSTERS ALREADY FUSED, SO SKIP THIS PAIR */
       continue;
 
+    /* SILENT
     fprintf(stderr,"Fusing cluster %d (%s, nseq=%d) --> %d (%s, nseq=%d)... score %.2f\n",
 	    cluster_j,all_seqs[cluster_j]->name,all_seqs[cluster_j]->nsource_seq,
 	    cluster_i,all_seqs[cluster_i]->name,all_seqs[cluster_i]->nsource_seq,
 	    score[iscore].score);
-    
+    */
+
     new_seq = all_seqs[cluster_i];
     total_alloc = new_seq->length * (sizeof(LPOLetter_T) + all_seqs[cluster_j]->length);
     if (total_alloc>max_alloc) { /* DP RECTANGLE ARRAY SIZE */
       max_alloc=total_alloc;
+
+/*
 #ifdef REPORT_MAX_ALLOC
       fprintf(stderr,"max_alloc: %d bytes\n",max_alloc);
 #endif
+*/
+  
+
       if (max_alloc>POA_MAX_ALLOC) {
 	WARN_MSG(TRAP,(ERRTXT,"Exceeded memory bound: %d\n Exiting!\n\n",max_alloc),"$Revision: 1.2.2.9 $");
 	break; /* JUST RETURN AND FINISH */
@@ -556,15 +564,10 @@ LPOSequence_T *buildup_progressive_lpo(int nseq,LPOSequence_T **all_seqs,
   }
   
   free_and_exit:
-  //fprintf(stderr, "FREE 1\n");
   FREE (initial_nseq);
-  //fprintf(stderr, "FREE 2\n");
   FREE (seq_cluster);
-  //fprintf(stderr, "FREE 3\n");
   FREE (cluster_size);
-  //fprintf(stderr, "FREE 4\n");
   FREE (seq_id_in_cluster);
-  //fprintf(stderr, "FREE 5\n");
   FREE (score);
   
   return new_seq; /* RETURN THE FINAL MASTER CLUSTER... */

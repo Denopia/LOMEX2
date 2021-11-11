@@ -277,6 +277,7 @@ int main(int argc,char *argv[])
   
   /* DIVIDE INTO BUNDLES W/ CONSENSUS USING PERCENT ID */
   if (do_analyze_bundles)
+    //generate_lpo_bundles(lpo_out,bundling_threshold);
     generate_lpo_bundles_new(lpo_out,bundling_threshold);
 
   if (po_out) { /* WRITE FINAL PARTIAL ORDER ALIGNMENT TO OUTPUT */

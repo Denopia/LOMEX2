@@ -118,6 +118,9 @@ LPOSequence_T *buildup_pairwise_lpo(LPOSequence_T seq1[],LPOSequence_T seq2[],
 void write_lpo(FILE *ifile,LPOSequence_T *seq,
 	       ResidueScoreMatrix_T *score_matrix);
 
+void write_lpo_modified(int minkmerid,LPOSequence_T *seq,
+	       ResidueScoreMatrix_T *score_matrix);
+
 LPOSequence_T *read_lpo(FILE *ifile);
 LPOSequence_T *read_lpo_select(FILE *ifile,FILE *select_ifile,
 			       int keep_all_links,int remove_listed_sequences);
@@ -133,9 +136,8 @@ void export_clustal_seqal(FILE *ifile,
 
 
 /****************************************************** heaviest_bundle.c */
-void generate_lpo_bundles_new(LPOSequence_T *seq,float minimum_fraction);
-
 void generate_lpo_bundles(LPOSequence_T *seq,float minimum_fraction);
+void generate_lpo_bundles_new(LPOSequence_T *seq,float minimum_fraction);
 
 
 /****************************************************** make_frame.c */

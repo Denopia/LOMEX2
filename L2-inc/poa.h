@@ -21,6 +21,8 @@
 
 #define REV_COMP_STRING "/rev_comp"
 
+#define WEIGHT_MULTIPLIER 1000
+
 
 /** THE NULL LETTER-REFERENCE */
 #define INVALID_LETTER_POSITION (-1)

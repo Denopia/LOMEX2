@@ -6,6 +6,42 @@
 #include "lpo.h"
 
 
+
+void write_lpo_modified(int minkmerid,LPOSequence_T *seq,
+         ResidueScoreMatrix_T *score_matrix)
+{
+  int i;
+  LPOLetterLink_T *link;
+  LPOLetterSource_T *source;
+
+  fprintf(stdout, "MINIMIZER-K-MER ID: %d \n", minkmerid);
+  fprintf(stdout,"VERSION=LPO.0.1\n");
+  fprintf(stdout,"NAME=%s\nTITLE=%s\nLENGTH=%d\nSOURCECOUNT=%d\n",
+    seq->name,seq->title,seq->length,seq->nsource_seq);
+
+  LOOPF (i,seq->nsource_seq)
+    fprintf(stdout,"SOURCENAME=%s\nSOURCEINFO=%d %d %d %d %s\n",
+      seq->source_seq[i].name,seq->source_seq[i].length,
+      seq->source_seq[i].istart,seq->source_seq[i].weight,
+      seq->source_seq[i].bundle_id,seq->source_seq[i].title);
+
+  LOOPF (i,seq->length) {
+    fprintf(stdout,"%c:",
+      seq->letter[i].letter < score_matrix->nsymbol ? 
+      score_matrix->symbol[seq->letter[i].letter] 
+      : seq->letter[i].letter);
+    for (link= &seq->letter[i].left;link && link->ipos>=0;link=link->more)
+      fprintf(stdout,"L%d",link->ipos);
+    for (source= &seq->letter[i].source;source;source=source->more)
+      fprintf(stdout,"S%d",source->iseq); /* SOURCE ID */
+    if (seq->letter[i].align_ring!=i) /* ALIGNED TO SOMETHING ELSE */
+      fprintf(stdout,"A%d",seq->letter[i].align_ring);
+    //fputc('\n',stderr);
+    fprintf(stdout, "\n");
+  }
+}
+
+
 /** writes the LPO in seq to the stream ifile; optionally a symbol table
  may be given for translating the letters in the LPO to text */
 void write_lpo(FILE *ifile,LPOSequence_T *seq,

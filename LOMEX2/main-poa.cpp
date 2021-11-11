@@ -314,7 +314,8 @@ int xlate_lpo_to_al(LPOSequence_T *seq,
 int main(int argc, char *argv[]) {
   // Sequences to align
   char *seqs[] = {
-    "acgtgatagctagctagactagatcgacgagcagcatcgagggactacgactagcaggactatcatctaaggcatcacgacgactgcg",
+    //"acgtgatagctagctagactagatcgacgagcagcatcgagggactacgactagcaggactatcatctaaggcatcacgacgactgcg",
+    "tagcacgtgatagctagactagatcgacgagcagcatcgagggactacgactagcaggactatcatctaaggcatcacgacgactgcg",
     "acgtgatagctacgtagactagatcgacacgtataagcatcgagggactacgactagcaggactatcatctaacgtgcatcacgacgactacg",
     "acgtgatagcgttagctagactagaacactcgacgagcacacatcgagggactacgactagcagacgtatatatcatctaagcacgacgacgactaag",
     "acgtacgatagctagctagactagaccgacgagcagcatcgagggactacgaacagcaggactaacgatctaaggcatcacgtccgacgactacg"
@@ -325,7 +326,8 @@ int main(int argc, char *argv[]) {
     anchors[i] = new int[4];
   }
 
-  anchors[0][0] = 6;
+  //anchors[0][0] = 6;
+  anchors[0][0] = 0;
   anchors[0][1] = 6;
   anchors[0][2] = 6;
   anchors[0][3] = 8;
@@ -466,3 +468,4 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+
