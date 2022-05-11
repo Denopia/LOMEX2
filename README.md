@@ -1,2 +1,3 @@
-# LOMEX2
-Upgraded version of LoMeX.
+# SAKE (Strobemer Asissted K-mer Extraction)
+
+## Installation and usage instructions coming soon...
