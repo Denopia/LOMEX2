@@ -7,7 +7,7 @@ SAKE is a program for k-mer extraction. It utilizes two other programs: BFCounte
 
 1. Download the project directory.
 
-2. Go to the main directory "SAKE".
+2. Go to the main directory (SAKE).
 
 3. Install the different programs of the pipeline in the following order
  
