@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	/*
 		Parse arguments given by the user.
 	*/
-	po::options_description desc("LOMEXII options");
+	po::options_description desc("SAKE options");
 	desc.add_options()
 		("help,h", "Give help")
 		("kmers,k", po::value<std::string>(& kmers_path)->default_value("na0"), "Path to the k-mers file")
@@ -578,7 +578,7 @@ int main(int argc, char *argv[])
 				//							current_insert_minimizer_kmer_strand);
 				}		
 				//else {
-				//	std::cout << "IRRELEVANT MINIMIZER-K-MER ERROR (BFCOUNTER AND LOMEX DISAGREE)\n";
+				//	std::cout << "IRRELEVANT MINIMIZER-K-MER ERROR (BFCOUNTER AND SAKE DISAGREE)\n";
 				//}
 				iloop = jloop;
 			}
@@ -723,7 +723,7 @@ int main(int argc, char *argv[])
 	uint64_t indexing_time = std::chrono::duration_cast<std::chrono::microseconds>(indexing_end_time - indexing_start_time).count();
 	uint64_t poa_time = std::chrono::duration_cast<std::chrono::microseconds>(poa_end_time - poa_start_time).count();
 
-	std::cout << "#### Lomex2 run finished ####\n";
+	std::cout << "#### SAKE run finished ####\n";
 	std::cout << "Total time: " << full_time << " microseconds\n";
 	std::cout << "Indexing time: " << indexing_time << " microseconds\n";
 	std::cout << "POA time: " << poa_time << " microseconds\n";

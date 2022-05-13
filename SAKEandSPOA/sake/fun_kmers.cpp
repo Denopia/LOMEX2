@@ -316,7 +316,7 @@ uint64_t reverse_complement_seqint_small(uint64_t seq, int len)
 uint64_t minimizer_hash(uint64_t key) {
   if (key ==  std::numeric_limits<uint64_t>::max())
   {
-  	std::cout << "### Lomex minimizer hash ERROR\n";
+  	std::cout << "### Minimizer hash ERROR\n";
     return std::numeric_limits<uint64_t>::max();
   }
 
