@@ -1,0 +1,15 @@
+syntax: glob
+*~
+*.o
+\#*
+.\#*
+old/
+tests/
+dist/
+debug/
+gmon.out
+*.dSYM/*
+prof
+BFCounter
+Naive
+TODO
