@@ -2,6 +2,7 @@
 
 SAKE is a program for k-mer extraction. It utilizes two other programs: BFCounter (https://github.com/pmelsted/BFCounter) and SPOA (https://github.com/rvaser/spoa). Both programs are modified to fit the SAKE pipeline, so the original versions cannot be used. The modified versions are included in this repository. 
 
+
 ### How to install
 
 1. Download the project directory.
@@ -37,3 +38,11 @@ make sake
 cd ../..
 ```
 ### How to use
+
+
+### Dependencies
+
+Check the BFCounter and SPOA dependencies.
+(Maybe something more?)
+
+### License
