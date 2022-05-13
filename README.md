@@ -2,6 +2,8 @@
 
 SAKE is a program for k-mer extraction. It utilizes two other programs: BFCounter (https://github.com/pmelsted/BFCounter) and SPOA (https://github.com/rvaser/spoa). Both programs are modified to fit the SAKE pipeline, so the original versions cannot be used. The modified versions are included in this repository. 
 
+Small warning: SAKE is not optimized for performance or user-friendliness. SAKE is likely going to be slow with larger data sets. Due to it being a proof-of-concept prototype program, it is somewhat clunky to use.  
+
 
 ### How to install
 
