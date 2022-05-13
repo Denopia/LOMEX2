@@ -42,7 +42,11 @@ cd ../..
 
 ### Dependencies
 
-Check the BFCounter and SPOA dependencies.
-(Maybe something more?)
+* Check the BFCounter and SPOA dependencies.
+* (Maybe something more?)
 
 ### License
+* SAKE is released under MIT license 
+* Modified version of SPOA is released under its original license (MIT)
+* Modified BFCounter is released under its original license (GPL3)
+* (Also check the licenses of different parts of BFCounter in the original README file)
