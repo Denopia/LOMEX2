@@ -75,13 +75,15 @@
 #include <vector>               // a sparsetable is a vector of groups
 #include <google/type_traits.h> // for true_type, integral_constant, etc.
 
-#if STDC_HEADERS
-#include <string.h>             // for memcpy
-#else
-#if !HAVE_MEMCPY
-#define memcpy(d, s, n)   bcopy ((s), (d), (n))
-#endif
-#endif
+#include <string.h>
+
+//#if STDC_HEADERS
+//#include <string.h>             // for memcpy
+//#else
+//#if !HAVE_MEMCPY
+//#define memcpy(d, s, n)   bcopy ((s), (d), (n))
+//#endif
+//#endif
 
 _START_GOOGLE_NAMESPACE_
 

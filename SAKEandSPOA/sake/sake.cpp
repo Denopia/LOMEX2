@@ -1,9 +1,9 @@
-#include <boost/program_options.hpp>
-#include <boost/log/trivial.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/range/iterator_range.hpp>
+//#include <boost/program_options.hpp>
+//#include <boost/log/trivial.hpp>
+//#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string/predicate.hpp>
+//#include <boost/filesystem.hpp>
+//#include <boost/range/iterator_range.hpp>
 #include <map>
 #include <math.h>
 #include <iostream>
@@ -29,8 +29,8 @@
 #include <omp.h>
 
 
-namespace po = boost::program_options;
-namespace bfs = boost::filesystem;
+//namespace po = boost::program_options;
+//namespace bfs = boost::filesystem;
 //using namespace std;
 //using namespace boost::filesystem;
 
@@ -49,58 +49,109 @@ int main(int argc, char *argv[])
 	/*
 		Initialize variables for user given arguments.
 	*/
-	std::string reads_path, kmers_path, output_path, score_matrix_path;
-	int window_number, window_size, window_offset, minimizer_len;
-	float bundling_threshold, support_threshold;
-	int minimizer_set_occ_threshold, min_bundle_size_threshold, min_char_support_threshold;
-	int nof_threads;
+	std::string kmers_path="na0";
+	std::string reads_path="na1";  
+	std::string score_matrix_path="na2";
+	std::string output_path="na3";
+	int window_number=1;
+	int window_size=1;
+	int window_offset=1; 
+	int minimizer_len=1;
+	int minimizer_set_occ_threshold=3; 
+	int min_bundle_size_threshold=3;
+	int min_char_support_threshold=3;
+	int nof_threads=1;
+	int poa_limit = 100000;
+	float bundling_threshold=0.8; 
+	float support_threshold=0.4;
+	bool print_help = false;
 
 	/*
 		Parse arguments given by the user.
 	*/
-	po::options_description desc("SAKE options");
-	desc.add_options()
-		("help,h", "Give help")
-		("kmers,k", po::value<std::string>(& kmers_path)->default_value("na0"), "Path to the k-mers file")
-		("reads,r", po::value<std::string>(& reads_path)->default_value("na1"), "Path to the reads file")
-		("scores,m", po::value<std::string>(& score_matrix_path)->default_value("na3"), "Path to the score matrix file")
-		("output,o", po::value<std::string>(& output_path)->default_value("na2"), "Path to the output file")
-		("windows,n", po::value<int>(& window_number)->default_value(1), "Number of windows")
-		("offset,f", po::value<int>(& window_offset)->default_value(1), "Window offset")
-		("window-size,s", po::value<int>(& window_size)->default_value(1), "Size of window")
-		("minimizer-len,l", po::value<int>(& minimizer_len)->default_value(1), "Minimizer length")
 
-		("bundle-thr,b", po::value<float>(& bundling_threshold)->default_value(0.8), "Bundling threshold")
-		("support-thr,z", po::value<float>(& support_threshold)->default_value(0.4), "Support threshold")
-		("min-abundance,a", po::value<int>(& minimizer_set_occ_threshold)->default_value(3), "Minimum minimizer-k-mer abundance")
-		("min-bundle-size,g", po::value<int>(& min_bundle_size_threshold)->default_value(3), "Minimum bundle size")
-		("min-char-support,c", po::value<int>(& min_char_support_threshold)->default_value(3), "Minimum character support")
-		("threads,t", po::value<int>(& nof_threads)->default_value(1), "Number of threads");
-		
-		//("pl-float,q", po::value<float>(& placeholder_float)->default_value(1.1), "Placeholder float");
-		
-	po::variables_map vm;
-	po::store(po::parse_command_line(argc, argv, desc), vm);
-	po::notify(vm);
-
-
-	// SOME HARD CODED PARAMETERS THAT NEED TO BE MADED MODIFIABLE WHEN RUNNING THE PROGRAM
-	//float bundling_threshold = 0.8;
-	//float support_threshold = 0.4;
-	//int minimizer_set_occ_threshold = 3;
-	//int min_bundle_size_threshold = 3;
-	//int min_char_support_threshold = 3;
-
-	//int nof_threads = 8;
+	int argi = 1;
+	while (argi < argc)
+    {
+		std::string as(argv[argi]);
+        
+        if (as.compare("-k") == 0){
+            kmers_path = std::string(argv[argi+1]);
+            argi += 2;
+        }
+		else if (as.compare("-r") == 0){
+			reads_path = std::string(argv[argi+1]);
+            argi += 2;
+        }
+		else if (as.compare("-m") == 0){
+            score_matrix_path = std::string(argv[argi+1]);
+            argi += 2;
+        }
+		else if (as.compare("-o") == 0){
+            output_path = std::string(argv[argi+1]);
+            argi += 2;
+        }
+		else if (as.compare("-n") == 0){
+            window_number = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-f") == 0){
+            window_offset = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-s") == 0){
+            window_size = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-l") == 0){
+            minimizer_len = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-a") == 0){
+            minimizer_set_occ_threshold = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-g") == 0){
+            min_bundle_size_threshold = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-c") == 0){
+            min_char_support_threshold = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-t") == 0){
+            nof_threads = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+		}
+		else if (as.compare("-p") == 0){
+            poa_limit = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-b") == 0){
+            bundling_threshold = std::stof(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-z") == 0){
+            support_threshold = std::stoi(std::string(argv[argi+1]));
+            argi += 2;
+        }
+		else if (as.compare("-h") == 0){
+			print_help = true;
+            argi += 1;
+        }
+		else
+		{
+			argi += 1;
+		}
+	}
 
 	int nof_threads_reading = nof_threads;
-
 	uint insertions2kmerindex = 0;
 
 	/*
 		If user asks for help, print help message and exit.
 	*/
-	if (vm.count("help")) {
+	if (print_help) {
  		std::cout << "Print help message here" << std::endl;
     	return 0;
 	}
@@ -634,7 +685,17 @@ int main(int argc, char *argv[])
 		// Create sequence anchor map
 		int nof_seqs = kmer_index.get_nof_occurrences(minikmer);
 
-		if (nof_seqs == 0){continue;}
+		if (nof_seqs == 0){
+			occurrence_strings.clear();
+			consensus_sequences.clear();
+			continue;
+		}
+
+		if (nof_seqs > poa_limit){
+			occurrence_strings.clear();
+			consensus_sequences.clear();
+			continue;
+		}
 
 		int instances = 0;
 		
@@ -674,6 +735,7 @@ int main(int argc, char *argv[])
 		//std::cout << "those were the strings\n\n";
 
 		if (occurrence_strings.size() == 0){
+			std::cout << "SHOULD BE IMPOSSIBLE TO BE HERE\n";
 			occurrence_strings.clear();
 			consensus_sequences.clear();
 			continue;
@@ -683,8 +745,6 @@ int main(int argc, char *argv[])
 
 		//std::cout << "Construct done\n";
 		//std::cout << "CONSENSUS SEQUENCES FOR " <<  map_int2str_small(minikmer, minimizer_kmer_len) << " :\n";
-		
-
 		
 		#pragma omp critical
 		{

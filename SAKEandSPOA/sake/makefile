@@ -1,10 +1,11 @@
 CC=g++ -std=c++11
 #STUFF= -Wall -g -fopenmp -pthread -Ofast
-STUFF= -Wall -g -O1
+STUFF= -Wall -g -O3
 #LDIR=-L../LII-lib/
 LDIR=-L../spoa/build/lib/
 #LIB=-lboost_program_options -lboost_system -lboost_filesystem -lm -llpo -fopenmp
-LIB=-lboost_program_options -lboost_system -lboost_filesystem -lm -lspoa -fopenmp
+#LIB=-lboost_program_options -lboost_system -lboost_filesystem -lm -lspoa -fopenmp
+LIB= -lm -lspoa -fopenmp
 #IDIR=-I../LII-inc/
 IDIR=-I../spoa/include/spoa/
 OMP=-fopenmp
