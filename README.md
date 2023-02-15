@@ -130,8 +130,21 @@ String 3 is path to the file where unique sorted and oriented k-mers are written
 
 ### Dependencies
 
-* Check the BFCounter and SPOA dependencies.
-* (Maybe something more?)
+SAKE
+* g++ 11.3.0 (older versions might also work)
+
+SPOA
+* gcc 4.8+ | clang 3.5+
+* cmake 3.12+    
+* (spoa_exe)(spoa_test) zlib 1.2.8+
+
+SPOA Optional
+* (optional) USCiLab/cereal 1.3.0
+* (optional) simd-everywhere/simde 0.7.0
+* (optional) google/cpu_features 0.6.0
+* (spoa_exe)(spoa_test) rvaser/bioparser 3.0.13
+* (spoa_exe)(spoa_test) rvaser/biosoup 0.10.0
+* (spoa_test) google/googletest 1.10.0
 
 ### License
 * SAKE is released under MIT license 
