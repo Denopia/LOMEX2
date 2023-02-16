@@ -748,13 +748,13 @@ int main(int argc, char *argv[])
 		
 		#pragma omp critical
 		{
-			std::cout << "This was minimizer-k-mer ID:" << minimizer_kmer_id << " as string: " << minikmer_as_string << "\n";
+			//std::cout << "This was minimizer-k-mer ID:" << minimizer_kmer_id << " as string: " << minikmer_as_string << "\n";
 			for (auto css : consensus_sequences)
 			{
 				//std::cout << css << " " << minimizer_kmer_id << "\n";
 				output_file << css << " " << minimizer_kmer_id << " " << minikmer_as_string << "\n";
 			}
-			std::cout << "----------------------------------------------------------------------------------------------\n";
+			//std::cout << "----------------------------------------------------------------------------------------------\n";
 		}
 		
 
