@@ -127,6 +127,9 @@ String 3 is path to the file where unique sorted and oriented k-mers are written
 
 ```
 
+### Example
+File "example_run.sh" contains an example run of the full pipeline to extract k-mers with SAKE. To run it with your own data sets, you can follow the steps and swap the parameters accordingly.
+
 
 ### Dependencies
 
