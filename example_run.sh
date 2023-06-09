@@ -48,22 +48,19 @@ SAKE_OUTPUT_AS_KMERS_ORIENTED="example_output/sake_"$K"-mers_oriented.txt"
 SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED="example_output/sake_"$K"-mers_oriented_sorted.txt"
 SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED_UNIQ="example_output/FINAL-"$K"-mers.txt"
 
-echo "k-mer length is"
-echo $K
-
 # Run BFCounter count
-/usr/bin/time -v ./BFCounterForStrobemers/BFCounter count --verbose -k $SL -n $P -t $BT -m $N -l $L -w $W -f $V -o $STROBEMERS_BIN_PATH $READS_PATH
+./BFCounterForStrobemers/BFCounter count --verbose -k $SL -n $P -t $BT -m $N -l $L -w $W -f $V -o $STROBEMERS_BIN_PATH $READS_PATH
 # Run BFCounter dump
-/usr/bin/time -v ./BFCounterForStrobemers/BFCounter dump -k $SL -i $STROBEMERS_BIN_PATH -o $STROBEMERS_PATH
+./BFCounterForStrobemers/BFCounter dump -k $SL -i $STROBEMERS_BIN_PATH -o $STROBEMERS_PATH
 # Run SAKE
-/usr/bin/time -v ./SAKEandSPOA/sake/sake -k $STROBEMERS_PATH -r $READS_PATH -o $SAKE_OUTPUT_PATH -n $N -l $L -s $W -f $V -b $B -z $Z -a $A -g $G -c $C -t $LT -p $POA_LIMIT
+./SAKEandSPOA/sake/sake -k $STROBEMERS_PATH -r $READS_PATH -o $SAKE_OUTPUT_PATH -n $N -l $L -s $W -f $V -b $B -z $Z -a $A -g $G -c $C -t $LT -p $POA_LIMIT
 # Split SAKE output sequences into k-mers
-/usr/bin/time -v python ./pytools/split_into_kmers.py $SAKE_OUTPUT_PATH $SAKE_OUTPUT_AS_KMERS $K
+python ./pytools/split_into_kmers.py $SAKE_OUTPUT_PATH $SAKE_OUTPUT_AS_KMERS $K
 # Orient SAKE k-mers
-/usr/bin/time -v python ./pytools/kmer_orienter.py $SAKE_OUTPUT_AS_KMERS $SAKE_OUTPUT_AS_KMERS_ORIENTED $K $KA
+python ./pytools/kmer_orienter.py $SAKE_OUTPUT_AS_KMERS $SAKE_OUTPUT_AS_KMERS_ORIENTED $K $KA
 # Sort SAKE k-mers
-/usr/bin/time -v sort $SAKE_OUTPUT_AS_KMERS_ORIENTED > $SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED
+sort $SAKE_OUTPUT_AS_KMERS_ORIENTED > $SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED
 # Remove any duplicate k-mers
-/usr/bin/time -v uniq $SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED > $SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED_UNIQ
+uniq $SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED > $SAKE_OUTPUT_AS_KMERS_ORIENTED_SORTED_UNIQ
 
 
